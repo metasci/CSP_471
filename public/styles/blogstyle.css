@@ -1,0 +1,74 @@
+/* This link has a float center example https://codepen.io/alexandredees/pen/ojaFr */
+
+body	{background-color: #eae7dc; /*changed*/
+    margin:0;
+    width: 100%;
+    color: #662e1c;
+
+    font-family:times, serif;
+
+    text-align:center;}
+
+
+/*Kaleigh Keiser 2016 */
+
+h1, h2, h3	{
+    
+    color: #2B873B;
+    font-family: "serif";
+    text-align:center;
+}
+
+
+
+hr		{height:1mm}
+
+
+.nocenter	{text-align: left;}
+
+p	{
+ padding: 75px;
+ margin: auto;
+ font-family: serif;
+}
+ 
+p a	{ 
+    color: e85a4f;
+    }
+
+
+
+ul {
+list-style-type: none;
+margin: 0;
+padding: 0;
+overflow: hidden;
+background-color: grey; /*Try this line next*/
+/* position: fixed; */
+top: 0;
+width: 100%;
+}
+
+li {
+float: left;
+}
+
+li a {
+display: block;
+color: #eae7dc; /*old:f3ebdd*/
+text-align: center;
+padding: 20px 16px; /*was 14px 16px*/
+text-decoration: none;
+}
+
+li a:hover:not(.active) {
+background-color: #2B873B;
+}
+
+li.active a{
+background-color: #2B873B;
+}
+
+.titlebar {
+    padding: 10px;
+}
