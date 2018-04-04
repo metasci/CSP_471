@@ -1,10 +1,63 @@
-var express = require('express');
-var router = express.Router();
+const express   = require('express');
+const router    = express.Router();
+const mysql     = require('mysql2');
+
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  database: '471DB'
+});
+
+
+
+/**
+ * LOGIN
+ */
+router.get('/login', (req, res, next) => {
+  res.locals.layout = 'loginlayout';
+  res.render('login');
+});
+
+/** 
+ * LOGIN PAGE
+ */
+router.post('/login', (req, res, next) => {
+
+  // check for username/password combo
+  // if correct creds, set cookie,
+  res.cookie("auth", true, {maxAge: 120000});
+  //else send error
+
+
+  res.redirect('/');
+});
+
+
+
+
+/**
+ * MIDDLEWARE - CHECK AUTHENTICATION
+ */
+router.use('/', (req, res, next)=>{
+    if(req.cookies.auth){
+      next();
+    } else {
+      res.redirect('/login');
+    }
+});
+
+// res.cookie(name, 'value', {expire: 360000 + Date.now()});
 
 /**
  * MY INFO
  */
-router.get('/', function(req, res, next) {
+router.get('/', (req, res, next) => {
+
+  connection.query('select * from person', (err, results, fields)=>{
+    console.log(results);
+  });
+
+
   res.locals.infoPage = true;
 
   res.render('index');
@@ -16,7 +69,7 @@ router.get('/', function(req, res, next) {
 /**
  * MY STUDENTS
  */
-router.get('/students', function(req, res, next) {
+router.get('/students', (req, res, next) => {
   res.locals.studentPage = true;
 
   res.render('students');
@@ -28,7 +81,7 @@ router.get('/students', function(req, res, next) {
 /**
  * MY SCHEDULE
  */
-router.get('/schedule', function(req, res, next) {
+router.get('/schedule', (req, res, next) => {
   res.locals.schedulePage = true;
 
   res.render('schedule');
@@ -38,7 +91,7 @@ router.get('/schedule', function(req, res, next) {
 /**
  * CLASSES
  */
-router.get('/classes', function(req, res, next) {
+router.get('/classes', (req, res, next) => {
   res.locals.classPage = true;
 
   res.render('classes');
@@ -49,32 +102,19 @@ router.get('/classes', function(req, res, next) {
 /**
  * CONTACT
  */
-router.get('/contact', function(req, res, next) {
+router.get('/contact', (req, res, next) => {
   res.locals.contactPage = true;
 
   res.render('contact');
 });
 
 
-
-
-
-/**
- * LOGIN
- */
-router.get('/login', function(req, res, next) {
-  res.locals.layout = 'loginlayout';
-  res.render('login');
-});
-
-
-
-/** 
- * LOGIN PAGE
- */
-router.post('/login', function(req, res, next) {
-
+router.get('/logout', (req, res, next)=>{
+  res.clearCookie('auth');
   res.redirect('/');
 });
+
+
+
 
 module.exports = router;
