@@ -16,10 +16,36 @@
         </div>
         <div class="nav">
             <ul>
-                <li class="active"><a href="/">My Info</a></li>
-                <li><a href="#">My Students</a></li>
-                <li><a href="#">My Schedule</a></li>
-                <li style="float:right"><a href="#">Contact</a></li>
+                {{#if infoPage}}
+                    <li class="active"><a href="/">My Info</a></li>   
+                {{else}}
+                    <li><a href="/">My Info</a></li>    
+                {{/if}}
+                
+                {{#if studentPage}}
+                    <li class="active"><a href="/students">My Students</a></li>
+                {{else}}
+                    <li><a href="/students">My Students</a></li>
+                {{/if}}
+
+                {{#if schedulePage}}
+                    <li class="active"><a href="/schedule">My Schedule</a></li>
+                {{else}}
+                    <li><a href="/schedule">My Schedule</a></li>
+                {{/if}}
+
+                {{#if classPage}}
+                    <li class="active"><a href="/classes">Classes</a></li>
+                {{else}}
+                    <li><a href="/classes">Classes</a></li>
+                {{/if}}
+                
+                {{#if contactPage}}
+                    <li class="active" style="float:right"><a href="/contact">Contact</a></li>
+                {{else}}
+                    <li style="float:right"><a href="/contact">Contact</a></li>
+                {{/if}}
+                
             </ul>
         </div>
     </header>

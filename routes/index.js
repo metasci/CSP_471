@@ -5,6 +5,8 @@ var router = express.Router();
  * MY INFO
  */
 router.get('/', function(req, res, next) {
+  res.locals.infoPage = true;
+
   res.render('index');
 });
 
@@ -15,6 +17,8 @@ router.get('/', function(req, res, next) {
  * MY STUDENTS
  */
 router.get('/students', function(req, res, next) {
+  res.locals.studentPage = true;
+
   res.render('students');
 });
 
@@ -25,9 +29,20 @@ router.get('/students', function(req, res, next) {
  * MY SCHEDULE
  */
 router.get('/schedule', function(req, res, next) {
+  res.locals.schedulePage = true;
+
   res.render('schedule');
 });
 
+
+/**
+ * CLASSES
+ */
+router.get('/classes', function(req, res, next) {
+  res.locals.classPage = true;
+
+  res.render('classes');
+});
 
 
 
@@ -35,6 +50,8 @@ router.get('/schedule', function(req, res, next) {
  * CONTACT
  */
 router.get('/contact', function(req, res, next) {
+  res.locals.contactPage = true;
+
   res.render('contact');
 });
 
