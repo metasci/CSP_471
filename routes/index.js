@@ -110,10 +110,129 @@ router.post('/updateinfo', (req, res, next) => {
 router.get('/students', (req, res, next) => {
   res.locals.studentPage = true;
 
-  res.render('students');
+  connection.query(`select EID from mentor where person_id=${req.cookies.auth}`, (err, results, fields) => {
+    connection.query(`select * from student s join mentor_relationship  m on m.student_eid=s.EID join person p on p.ID=s.person_id where mentor_eid="${results[0].EID}"`, (err, results, fields) => {
+      res.locals.students = results;
+      res.render('students');
+    });
+  });
+});
+
+/**
+ * Sends us to student specific information page
+ */
+router.post('/students', (req, res, next) => {
+  
+  connection.query(`select *, DATE_FORMAT(DOB, "%b %e %Y") birth from person p join student s on p.ID=s.person_id
+  where p.ID=${req.body.person_id}`, (err, results, fields) => {
+
+    res.locals.student = results[0];
+
+    connection.query(`select * from class_relationship natural join classes where student_eid="${results[0].EID}"`, (err, results, fields) => {
+      res.locals.classes = results;
+
+      connection.query(`select * from parent join person on person.ID=parent.person_id where parent.student_id="${res.locals.student.EID}"`, (err, results, fields) =>{
+        if(err) throw err;
+        res.locals.parent = results[0];
+
+        res.render('studentinfo');
+      });
+
+    });
+  });
+});
+
+router.post("/updatestudentinfo", (req, res, next) => {
+  connection.query(`select *, DATE_FORMAT(DOB, "%Y-%m-%d") birth from person join student on ID=person_id
+  where ID=${req.body.id}`, (err, results, fields) => {
+
+    res.locals.student = results[0];
+
+    connection.query(`select * from parent join person on ID=person_id where student_id="${res.locals.student.EID}"`, (err, results, fields) => {
+      if(err) throw err;
+      
+      res.locals.parent = results[0];
+
+      connection.query(`select * from class_relationship natural join classes where student_eid="${res.locals.student.EID}"`, (err, results, fields) => {
+        res.locals.classes = results;
+        res.render('updatestudentinfo');
+      });
+
+    });
+    
+  });
 });
 
 
+router.post('/updatestudentinfo/submit', (req, res, next) => {
+
+  connection.query(`update person join student on person_id=ID set address="${req.body.address}", email="${req.body.email}", phone_number="${req.body.phone_number}", class_standing=${req.body.class_standing}, years_in_program=${req.body.years_in_program}, study_tables_hours_attended="${req.body.study_table}", DOB="${req.body.DOB}" where ID=${req.body.id}`, (err, results, fields)=>{
+    if(err) throw err;
+
+    connection.query(`update person set phone_number="${req.body.parent_phone_number}" where ID=${req.body.parent_id}`, (err, results, fields) => {
+      connection.query(`select *, DATE_FORMAT(DOB, "%b %e %Y") birth from person p join student s on p.ID=s.person_id
+        where p.ID=${req.body.id}`, (err, results, fields) => {
+
+          res.locals.student = results[0];
+
+          connection.query(`select * from class_relationship natural join classes where student_eid="${results[0].EID}"`, (err, results, fields) => {
+            res.locals.classes = results;
+            connection.query(`select * from parent join person on person.ID=parent.person_id where parent.student_id="${res.locals.student.EID}"`, (err, results, fields) =>{
+              if(err) throw err;
+              res.locals.parent = results[0];
+
+              res.render('studentinfo');
+            });
+          });
+      });
+    });
+  });
+});
+
+
+
+router.post('/updatestudentinfo/class/delete', (req, res, next) => {
+  connection.query(`delete from class_relationship where class_number="${req.body.class_number}" and student_eid="${req.body.EID}"`, (err, results, fields) => {
+    if(err) throw err;
+    connection.query(`select *, DATE_FORMAT(DOB, "%b %e %Y") birth from person join student on ID=person_id
+      where ID=${req.body.id}`, (err, results, fields) => {
+        if(err) throw err;
+
+        res.locals.student = results[0];
+
+        connection.query(`select * from class_relationship natural join classes where student_eid="${results[0].EID}"`, (err, results, fields) => {
+          res.locals.classes = results;
+          connection.query(`select * from parent join person on person.ID=parent.person_id where parent.student_id="${res.locals.student.EID}"`, (err, results, fields) =>{
+            if(err) throw err;
+            res.locals.parent = results[0];
+    
+            res.render('studentinfo');
+          });
+        });
+    });
+  });
+});
+
+router.post('/updatestudentinfo/class/add', (req, res, next) => {
+  connection.query(`insert into class_relationship values ("${req.body.EID}","${req.body.class_number}")`, (err, results, fields) => {
+    connection.query(`select *, DATE_FORMAT(DOB, "%b %e %Y") birth from person join student on ID=person_id
+      where ID=${req.body.id}`, (err, results, fields) => {
+        if(err) throw err;
+
+        res.locals.student = results[0];
+
+        connection.query(`select * from class_relationship natural join classes where student_eid="${results[0].EID}"`, (err, results, fields) => {
+          res.locals.classes = results;
+          connection.query(`select * from parent join person on person.ID=parent.person_id where parent.student_id="${res.locals.student.EID}"`, (err, results, fields) =>{
+            if(err) throw err;
+            res.locals.parent = results[0];
+    
+            res.render('studentinfo');
+          });
+        });
+    });
+  });
+});
 
 
 /**

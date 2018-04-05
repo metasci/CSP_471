@@ -93,9 +93,9 @@ header.info-container,footer.info-container {
     background-color: #F2F2F2;
 }
 
-/* w3-btn w3-white w3-border */
+/* info-btn info-white info-border */
 
-.w3-btn {
+.info-btn {
     border:none;
     display:inline-block;
     padding:8px 16px;
@@ -109,37 +109,50 @@ header.info-container,footer.info-container {
     white-space:nowrap
 }
 
-.w3-btn:hover {
+.info-btn:hover {
     box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)
 }
 
-/* .w3-btn {
+.info-btn {
     -webkit-touch-callout:none;
     -webkit-user-select:none;
     -khtml-user-select:none;
     -moz-user-select:none;
     -ms-user-select:none;
     user-select:none;
-} */
+}
 
-.w3-disabled .w3-btn:disabled {
+.info-disabled .info-btn:disabled {
     cursor:not-allowed;
     opacity:0.3
 }
 
-.w3-disabled *,:disabled * {
+.info-disabled *,:disabled * {
     pointer-events:none
 }
 
-.w3-btn.w3-disabled:hover,.w3-btn:disabled:hover {
+.info-btn.info-disabled:hover,.info-btn:disabled:hover {
     box-shadow:none
 }
 
-.w3-white,.w3-hover-white:hover {
+.info-white,.info-hover-white:hover {
     color:#000!important;
     background-color:#fff!important;
 }
 
-.w3-border {
+.info-border {
     border:1px solid #ccc!important;
+}
+
+.btn-danger {
+    background-color: red;
+    color: white;
+}
+
+.padded {
+    padding: 10px;
+}
+
+.left-margin {
+    margin-left: 10px;
 }

@@ -1,0 +1,35 @@
+<div class="info-card-4">
+
+        <header class="info-container">
+            <h1>Student Information</h1>
+        </header>
+
+        <div class="info-container">
+            {{#each students as |student|}}
+                <table class="info-table">
+                    <tr>
+                        <td>EID:</td>
+                        <td>{{student.EID}}</td>
+                    </tr>
+                    <tr class="row-alt">
+                        <td>Name:</td>
+                        <td>{{student.first_name}}&nbsp;{{student.middle_initial}}&nbsp;{{student.last_name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td>{{student.email}}</td>
+                    </tr>
+                </table>
+                <form action="/students" method="post">
+                    <input type="hidden" name="person_id" value="{{student.person_id}}">
+                    <button class="info-btn info-white info-border">More Info</button>
+                </form>
+                <hr>
+            {{/each}}
+            
+        </div>
+        <footer class="info-container">
+            <h5></h5>
+        </footer>
+
+    </div>

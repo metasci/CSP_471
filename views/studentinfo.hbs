@@ -1,0 +1,97 @@
+  
+<div>
+    <div class="info-card-4">
+
+        <header class="info-container">
+            <h1>{{student.first_name}}&nbsp;{{student.middle_initial}}&nbsp;{{student.last_name}}</h1>
+        </header>
+
+        <div class="info-container">
+            <table class="info-table">
+                <tr>
+                    <td>EID:</td>
+                    <td>{{student.EID}}</td>
+                </tr>
+                <tr class="row-alt">
+                    <td>Email:</td>
+                    <td>{{student.email}}</td>
+                </tr>
+                <tr>
+                    <td>Phone Number:</td>
+                    <td>{{student.phone_number}}</td>
+                </tr>
+                <tr class="row-alt">
+                    <td>Address:</td>
+                    <td>{{student.address}}</td>
+                </tr>
+                <tr>
+                    <td>Class Standing:</td>
+                    <td>{{student.class_standing}}</td>
+                </tr>
+                <tr class="row-alt">
+                    <td>Years in Program:</td>
+                    <td>{{student.years_in_program}}</td>
+                </tr>
+                <tr>
+                    <td>Study Table Hours Attended:</td>
+                    <td>{{student.study_tables_hours_attended}}</td>
+                </tr>
+                <tr class="row-alt">
+                    <td>Date of Birth:</td>
+                    <td>{{student.birth}}</td>
+                </tr>
+            </table>
+            <hr>
+            <table class="info-table">
+                <tr>
+                    <td>Parent Name:</td>
+                    <td>{{parent.first_name}}&nbsp;{{parent.middle_initial}}&nbsp;{{parent.last_name}}</td>
+                </tr>
+                <tr class="row-alt">
+                    <td>Relationship:</td>
+                    <td>{{parent.relationship}}</td>
+                </tr>
+                <tr>
+                    <td>Phone Number:</td>
+                    <td>{{parent.phone_number}}</td>
+                </tr>
+            </table>
+        </div>
+        
+
+        <footer class="info-container">
+            <form action="/updatestudentinfo" method="post">
+                <input type="hidden" name="id" value="{{student.person_id}}">
+                <h5><button class="info-btn info-white info-border">Update Info</button></h5>
+            </form>
+        </footer>
+
+    </div>
+
+    <div class="info-card-4">
+
+        <header class="info-container">
+            <h2>Classes</h2>
+        </header>
+        {{#each classes as |class|}}
+            <div class="info-container">
+                <table class="info-table">
+                    <tr>
+                        <td>Class Number:</td>
+                        <td>{{class.class_number}}</td>
+                    </tr>
+                    <tr class="row-alt">
+                        <td>Class Name:</td>
+                        <td>{{class.class_name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Meeting Days:</td>
+                        <td>{{class.meeting_days}}</td>
+                    </tr>
+                </table>
+            </div>
+            <hr>
+        {{/each}}
+    </div>
+</div>
+

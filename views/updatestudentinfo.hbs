@@ -1,0 +1,111 @@
+  
+<div>
+    <div class="info-card-4">
+
+        <header class="info-container">
+            <h1>{{student.first_name}}&nbsp;{{student.middle_initial}}&nbsp;{{student.last_name}}</h1>
+        </header>
+
+        <div class="info-container">
+            <form action="/updatestudentinfo/submit" method="post" id="update">
+                <table class="info-table">
+                    <tr>
+                        <td>EID:</td>
+                        <td>{{student.EID}}</td>
+                    </tr>
+                    <tr class="row-alt">
+                        <td>Email:</td>
+                        <td><input type="email" name="email" value="{{student.email}}"></td>
+                    </tr>
+                    <tr>
+                        <td>Phone Number:</td>
+                        <td><input type="text" name="phone_number" value="{{student.phone_number}}" maxlength="10" minlength="10" required></td>
+                    </tr>
+                    <tr class="row-alt">
+                        <td>Address:</td>
+                        <td><input type="text" name="address" value="{{student.address}}" required></td>
+                    </tr>
+                    <tr>
+                        <td>Class Standing:</td>
+                        <td><input type="number" name="class_standing" value="{{student.class_standing}}" min="0" max="4"></td>
+                    </tr>
+                    <tr class="row-alt">
+                        <td>Years in Program:</td>
+                        <td><input type="number" name="years_in_program" value="{{student.years_in_program}}" min="0"></td>
+                    </tr>
+                    <tr>
+                        <td>Study Table Hours Attended:</td>
+                        <td><input type="number" name="study_table" value="{{student.study_tables_hours_attended}}" min="0"></td>
+                    </tr>
+                    <tr class="row-alt">
+                        <td>Date of Birth:</td>
+                        <td><input type="date" name="DOB" value="{{student.birth}}"></td>
+                    </tr>
+                </table>
+                <hr>
+                <table class="info-table">
+                    <tr>
+                        <td>Parent Name:</td>
+                        <td>{{parent.first_name}}&nbsp;{{parent.middle_initial}}&nbsp;{{parent.last_name}}</td>
+                    </tr>
+                    <tr class="row-alt">
+                        <td>Relationship:</td>
+                        <td>{{parent.relationship}}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone Number:</td>
+                        <td><input type="text" name="parent_phone_number" value="{{parent.phone_number}}" maxlength="10" minlength="10" required></td>
+                    </tr>
+                </table>
+                <input type="hidden" name="parent_id" value="{{parent.person_id}}">
+                <input type="hidden" name="id" value="{{student.person_id}}">
+            </form>
+        </div>
+        
+        <footer class="info-container">
+            <h5><button type="submit" form="update" class="info-btn info-white info-border">Submit</button></h5>
+        </footer>
+
+    </div>
+
+    <div class="info-card-4">
+
+        <header class="info-container">
+            <h2>Classes</h2>
+        </header>
+        {{#each classes as |class|}}
+            <div class="info-container">
+                <table class="info-table">
+                    <tr>
+                        <td>Class Number:</td>
+                        <td>{{class.class_number}}</td>
+                    </tr>
+                    <tr class="row-alt">
+                        <td>Class Name:</td>
+                        <td>{{class.class_name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Meeting Days:</td>
+                        <td>{{class.meeting_days}}</td>
+                    </tr>
+                </table>
+            </div>
+            <form action="/updatestudentinfo/class/delete" method="post">
+                <input type="hidden" name="class_number" value="{{class.class_number}}">
+                <input type="hidden" name="EID" value="{{../student.EID}}">
+                <input type="hidden" name="id" value="{{../student.person_id}}">
+                <button type="submit" class="info-btn info-border btn-danger">Delete</button>
+            </form>
+            <hr>
+        {{/each}}
+        <footer class="info-container padded">
+            <form action="/updatestudentinfo/class/add" method="post">
+                <input type="text" name="class_number" placeholder="Enter class number">
+                <input type="hidden" name="EID" value="{{student.EID}}">
+                <input type="hidden" name="id" value="{{student.person_id}}">
+                <button class="info-btn info-white info-border left-margin">Add Class</button>
+            </form>
+        </footer>
+    </div>
+</div>
+
