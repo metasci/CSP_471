@@ -14,8 +14,12 @@ const connection = mysql.createConnection({
  * LOGIN
  */
 router.get('/login', (req, res, next) => {
-  res.locals.layout = 'loginlayout';
-  res.render('login');
+  if(!req.cookies.auth){
+    res.locals.layout = 'loginlayout';
+    res.render('login');
+  } else {
+    res.redirect('/');
+  }
 });
 
 /** 
@@ -24,12 +28,27 @@ router.get('/login', (req, res, next) => {
 router.post('/login', (req, res, next) => {
 
   // check for username/password combo
-  // if correct creds, set cookie,
-  res.cookie("auth", true, {maxAge: 120000});
+  connection.query(`select passwd, ID from mentor join person on person_id=ID where email="${req.body.email}"`, (err, results, fields)=>{
+    if(err) throw err;
+
+    if(results.length > 0){
+      if(results[0].passwd == req.body.passwd){
+        // if correct credentials, set cookie,
+        res.cookie("auth", results[0].ID, {maxAge: 12000000});
+      }
+      res.redirect('/');
+    } else {
+      res.locals.login_error = "Incorrect login information. Try again.";
+      res.locals.layout = 'loginlayout';
+      res.render('login');
+    }
+  });
+
+  
   //else send error
 
 
-  res.redirect('/');
+  
 });
 
 
@@ -52,15 +71,34 @@ router.use('/', (req, res, next)=>{
  * MY INFO
  */
 router.get('/', (req, res, next) => {
-
-  connection.query('select * from person', (err, results, fields)=>{
-    console.log(results);
-  });
-
-
   res.locals.infoPage = true;
+  
 
-  res.render('index');
+  connection.query(`select * from person join mentor on ID=person_id where ID=${req.cookies.auth}`, (err, results, fields)=>{
+    
+    res.locals.info = results[0];
+
+    res.render('index');
+  });
+});
+
+router.get('/updateinfo', (req, res, next) => {
+  connection.query(`select * from person join mentor on ID=person_id where ID=${req.cookies.auth}`, (err, results, fields)=>{
+    
+    res.locals.info = results[0];
+
+    res.render('updateinfo');
+  });
+});
+
+router.post('/updateinfo', (req, res, next) => {
+  connection.query(`update person join mentor on person_id=ID set address="${req.body.address}", email="${req.body.email}", phone_number="${req.body.phone_number}" where ID=${req.cookies.auth}`, (err, results, fields)=>{
+    // update person join mentor on person_id=ID set address="555 stupid rd" where ID=2;
+    if(err) throw err;
+    console.log(results);
+
+    res.redirect('/');
+  });
 });
 
 

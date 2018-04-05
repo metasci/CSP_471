@@ -1,0 +1,37 @@
+<div class="">
+    <div class="info-card-4">
+
+        <header class="info-container">
+            <h1>{{info.first_name}}&nbsp;{{info.middle_initial}}&nbsp;{{info.last_name}}</h1>
+        </header>
+
+        <div class="info-container">
+            <form action="/updateinfo" method="post" id="update">
+                <table class="info-table">
+                    <tr>
+                        <td>EID:</td> 
+                        <td>{{info.EID}}</td>
+                    </tr>
+                    <tr class="row-alt">
+                        <td>Email:</td>
+                        <td><input type="email" name="email" value="{{info.email}}" required></td>
+                    </tr>
+                    <tr>
+                        <td>Phone Number:</td>
+                        <td><input type="text" name="phone_number" value="{{info.phone_number}}" maxlength="10" minlength="10" required></td>
+                    </tr>
+                    <tr class="row-alt">
+                        <td>Address:</td>
+                        <td><input type="text" name="address" value="{{info.address}}" required></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+        <footer class="info-container">
+            <h5><button type="submit" class="w3-btn w3-white w3-border" form="update">Submit</button></h5>
+        </footer>
+
+    </div>
+</div>
+

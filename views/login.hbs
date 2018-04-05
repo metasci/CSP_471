@@ -4,12 +4,16 @@
 
       <img src="img/emu_logo.png" alt="" width="72" height="72">
       <h1 class="">Please sign in</h1>
-      
+
+      {{#if login_error}}
+        <div class="error">{{login_error}}</div>
+      {{/if}}
+
       <p>
-        <input class="input" type="text" placeholder="Enter your email">
+        <input name="email" class="input" type="text" placeholder="Enter your email">
       </p>
       <p>
-        <input class="input" type="password" placeholder="Enter your password">
+        <input name="passwd" class="input" type="password" placeholder="Enter your password">
       </p>
       <button type="submit">Sign in</button>
     </form>

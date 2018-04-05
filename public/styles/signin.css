@@ -19,3 +19,9 @@
 .text-left {
   text-align: left;
 }
+
+
+.error {
+  background-color: #f87777;
+  display: block;
+}

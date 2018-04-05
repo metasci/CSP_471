@@ -10,12 +10,12 @@
 
     </head>
     <body>
-    <header>
+    <header class="nav">
         <div class="titlebar">
             <h1>College Supports Program</h1>
         </div>
         <div class="nav">
-            <ul>
+            <ul class="nav-ul">
                 {{#if infoPage}}
                     <li class="active"><a href="/">My Info</a></li>   
                 {{else}}
@@ -41,11 +41,12 @@
                 {{/if}}
                 
                 {{#if contactPage}}
-                    <li class="active" style="float:right"><a href="/contact">Contact</a></li>
+                    <li class="active"><a href="/contact">Contact</a></li>
                 {{else}}
-                    <li style="float:right"><a href="/contact">Contact</a></li>
+                    <li><a href="/contact">Contact</a></li>
                 {{/if}}
-                
+
+                <li style="float:right"><a href="/logout">Logout</a></li>
             </ul>
         </div>
     </header>
