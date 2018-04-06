@@ -1,0 +1,47 @@
+<div>
+    <div class="info-card-4">
+
+        <header class="info-container">
+            <h1>Weekly Hours</h1>
+        </header>
+        <div class="info-container">
+            <table class="info-table">
+                <tr>
+                    <td>Total Hours Worked:</td>
+                    <td>{{hours.hours_worked}}</td>
+                </tr>
+                <tr class="row-alt">
+                    <td>Study Table Hours:</td>
+                    <td>{{hours.study_tables_hours}}</td>
+                </tr>
+            </table>
+        </div>
+
+        {{!-- add to total --}}
+        {{!-- add to study table --}}
+        {{!-- clear both --}}
+
+        <footer class="info-container">
+            <div class="padded">
+                <div class="float-left hours-input">
+                    <form action="/hours/total/add" method="post">
+                        <input type="number" name="total" placeholder="Add general hours">
+                        <button type="submit" class="info-btn info-white info-border left-margin">Submit</button>
+                    </form>
+                </div>
+                <div class="float-right hours-input">
+                    <form action="/hours/studytable/add" method="post">
+                        <input type="number" name="study_table" placeholder="Add study table hours">
+                        <button type="submit" class="info-btn info-white info-border left-margin">Submit</button>
+                    </form>
+                </div>
+                <a href="/hours/clear"><button class="info-btn info-border left-margin btn-danger" type="reset"><strong>Clear Hours</strong></button></a>
+            </div>
+        </footer>
+
+    </div>
+
+
+    
+</div>
+

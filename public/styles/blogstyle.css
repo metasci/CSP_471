@@ -156,3 +156,17 @@ header.info-container,footer.info-container {
 .left-margin {
     margin-left: 10px;
 }
+
+.hours-input {
+    width:50%;
+}
+
+.float-left {
+    float: left;
+}
+.float-right {
+    float: right;
+}
+.clear-float {
+    clear: both;
+}

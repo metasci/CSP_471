@@ -241,7 +241,32 @@ router.post('/updatestudentinfo/class/add', (req, res, next) => {
 router.get('/schedule', (req, res, next) => {
   res.locals.schedulePage = true;
 
-  res.render('schedule');
+  connection.query(`select hours_worked, study_tables_hours from mentor where person_id=${req.cookies.auth}`, (err, results, fields) => {
+    res.locals.hours = results[0];
+    res.render('schedule');
+  });
+});
+
+router.post('/hours/total/add', (req, res, next) => {
+  connection.query(`update mentor set hours_worked=hours_worked+${req.body.total} where person_id=${req.cookies.auth}`, (err, results, fields) => {
+    if(err) throw err;
+    res.redirect('/schedule');
+  });
+});
+
+
+router.post('/hours/studytable/add', (req, res, next) => {
+  connection.query(`update mentor set study_tables_hours=study_tables_hours+${req.body.study_table} where person_id=${req.cookies.auth}`, (err, results, fields) => {
+    if(err) throw err;
+    res.redirect('/schedule');
+  });
+});
+
+router.get('/hours/clear', (req, res, next) => {
+  connection.query(`update mentor set study_tables_hours=0, hours_worked=0 where person_id=${req.cookies.auth}`, (err, results, fields) => {
+    if(err) throw err;
+    res.redirect('/schedule');
+  });
 });
 
 
