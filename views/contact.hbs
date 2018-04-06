@@ -1,0 +1,35 @@
+<div class="info-card-4">
+
+        <header class="info-container">
+            <h1>Student Information</h1>
+        </header>
+
+        <div class="info-container">
+            {{#each mentors as |mentor|}}
+                <table class="info-table">
+                    <tr>
+                        <td>EID:</td>
+                        <td>{{mentor.EID}}</td>
+                    </tr>
+                    <tr class="row-alt">
+                        <td>Name:</td>
+                        <td>{{mentor.first_name}}&nbsp;{{mentor.middle_initial}}&nbsp;{{mentor.last_name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td>{{mentor.email}}</td>
+                    </tr>
+                    <tr class="row-alt">
+                        <td>Phone Number:</td>
+                        <td>{{mentor.phone_number}}</td>
+                    </tr>
+                </table>
+                <hr>
+            {{/each}}
+            
+        </div>
+        <footer class="info-container">
+            <h5></h5>
+        </footer>
+
+    </div>

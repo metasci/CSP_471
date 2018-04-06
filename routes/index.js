@@ -286,8 +286,11 @@ router.get('/classes', (req, res, next) => {
  */
 router.get('/contact', (req, res, next) => {
   res.locals.contactPage = true;
-
-  res.render('contact');
+  connection.query(`select * from person join mentor on ID=person_id`, (err, results, fields) => {
+    if(err) throw err;
+    res.locals.mentors=results;
+    res.render('contact');
+  });
 });
 
 
