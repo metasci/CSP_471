@@ -256,7 +256,7 @@ router.post('/hours/total/add', (req, res, next) => {
 
 
 router.post('/hours/studytable/add', (req, res, next) => {
-  connection.query(`update mentor set study_tables_hours=study_tables_hours+${req.body.study_table} where person_id=${req.cookies.auth}`, (err, results, fields) => {
+  connection.query(`update mentor set study_tables_hours=study_tables_hours+${req.body.study_table}, hours_worked=hours_worked+${req.body.study_table} where person_id=${req.cookies.auth}`, (err, results, fields) => {
     if(err) throw err;
     res.redirect('/schedule');
   });
@@ -275,8 +275,25 @@ router.get('/hours/clear', (req, res, next) => {
  */
 router.get('/classes', (req, res, next) => {
   res.locals.classPage = true;
+  res.locals.classes = {};
 
-  res.render('classes');
+  connection.query('select * from classes', (err, results, fields) => {
+  
+    results.forEach(aclass => {
+      aclass.notes = [];
+      res.locals.classes[aclass.class_number] = aclass;
+    });
+    connection.query(`select * from note_info`, (err, results, fields) => {
+      
+      results.forEach(doc => {
+        res.locals.classes[doc.class_number].notes.push(doc);
+      });
+      console.log(res.locals.classes['COSC 211'].notes);
+      res.render('classes');
+    });
+  
+  });
+  
 });
 
 

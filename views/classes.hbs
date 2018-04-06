@@ -1,0 +1,36 @@
+<div>
+    {{#each classes as |class|}}
+        <div class="info-card-4">
+
+            <header class="info-container">
+                <h3>{{class.class_number}}&nbsp;--&nbsp;{{class.class_name}}</h3>
+                <p>{{class.meeting_days}}</p>
+
+            </header>
+
+            <div class="info-container">
+                <table class="info-table">
+                    <tr>
+                        <th>Date</th>
+                        <th>Author Name</th>
+                        <th>Author EID</th>
+                        <th>Notes</th>
+                    </tr>
+                    {{#each class.notes as |note|}}
+                        <tr class="{{index_by_two @index}}">
+                            <td>{{note.date}}</td>
+                            <td>{{note.first_name}}&nbsp;{{note.middle_initial}}&nbsp;{{note.last_name}}</td>
+                            <td>{{note.author_eid}}</td>
+                            <td>
+                                <form action="#">
+                                    <input type="hidden" name="doc_id" value="{{note.d_id}}">
+                                    <button class="info-btn info-white info-border" type="submit">Download</button>
+                                </form>
+                            </td>
+                        </tr>    
+                    {{/each}}
+                </table>
+            </div>
+        </div>
+    {{/each}}
+</div>
