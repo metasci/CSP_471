@@ -3,6 +3,7 @@ const router      = express.Router();
 const mysql       = require('mysql2');
 const formidable  = require('formidable');
 const fs          = require('fs');
+const bcrypt      = require('bcrypt');
 
 
 // DB connection
@@ -13,6 +14,20 @@ const connection = mysql.createConnection({
 });
 
 
+/**
+ * helper functions
+ */
+function loginError(res){
+  res.locals.login_error = "Incorrect login information. Try again.";
+  res.locals.layout = 'loginlayout';
+  res.render('login');
+}
+
+
+
+/**
+ * Routes
+ */
 
 /**
  * LOGIN
@@ -34,25 +49,22 @@ router.post('/login', (req, res, next) => {
   // check for username/password combo
   connection.query(`select passwd, ID from mentor join person on person_id=ID where email="${req.body.email}"`, (err, results, fields)=>{
     if(err) throw err;
-
-    if(results.length > 0){
-      if(results[0].passwd == req.body.passwd){
-        // if correct credentials, set cookie,
-        res.cookie("auth", results[0].ID, {maxAge: 12000000});
-      }
-      res.redirect('/');
-    } else {
-      res.locals.login_error = "Incorrect login information. Try again.";
-      res.locals.layout = 'loginlayout';
-      res.render('login');
+    if(results.length > 0){ // email exists
+      
+      bcrypt.compare(req.body.passwd, results[0].passwd, (err, correct) => {
+        if(err) throw err;
+        if(correct){ // password correct
+          // if correct credentials, set cookie,
+          res.cookie("auth", results[0].ID, {maxAge: 12000000});
+          res.redirect('/');
+        } else { // password incorrect
+          loginError(res);
+        }
+      });
+    } else { // email doesn't exist
+      loginError(res);
     }
-  });
-
-  
-  //else send error
-
-
-  
+  });  
 });
 
 
