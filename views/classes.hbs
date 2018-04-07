@@ -22,15 +22,21 @@
                             <td>{{note.first_name}}&nbsp;{{note.middle_initial}}&nbsp;{{note.last_name}}</td>
                             <td>{{note.author_eid}}</td>
                             <td>
-                                <form action="#">
-                                    <input type="hidden" name="doc_id" value="{{note.d_id}}">
-                                    <button class="info-btn info-white info-border" type="submit">Download</button>
-                                </form>
+                                <a href="/storage/{{note.notes}}" target="_blank" class="info-btn info-white info-border">View</a>
                             </td>
                         </tr>    
                     {{/each}}
                 </table>
             </div>
+            <footer class="info-container">
+                <p>
+                    <form action="/classes/upload/" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="class" value="{{class.class_number}}">
+                        <input type="file" name="notes">
+                        <button type="submit" class="info-btn info-white info-border">Upload Notes</button>
+                    </form>
+                </p>
+            </footer>
         </div>
     {{/each}}
 </div>
