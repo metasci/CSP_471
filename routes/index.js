@@ -8,9 +8,10 @@ const bcrypt      = require('bcrypt');
 
 // DB connection
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  database: '471DB'
+  host: process.env.NODE_ENV=='production' ? process.env.DB_HOST : 'localhost',
+  user: process.env.NODE_ENV=='production' ? process.env.DB_USER : 'root',
+  database: process.env.NODE_ENV=='production' ? process.env.DB : '471DB',
+  password: process.env.NODE_ENV=='production' ? process.env.DB_PW : ''
 });
 
 
