@@ -322,7 +322,7 @@ router.post('/classes/upload', (req, res, next) => {
         if(err) throw err;
         // save file to correct directory
         let oldpath = files.notes.path;
-        let newpath = `../public/storage/${filename}`;
+        let newpath = `./public/storage/${filename}`;
         fs.copyFile(oldpath, newpath, err => { // save file to storage
           if(err) throw err;
           fs.unlink(oldpath, err => { // delete from temp upload location
